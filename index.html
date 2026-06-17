@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julien LUCIEN — Technicien de Maintenance Électrique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2336;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7c3aed;
+    --text: #e8edf5;
+    --text-muted: #8896b0;
+    --border: rgba(0,212,255,0.15);
+    --glow: rgba(0,212,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── ANIMATED BG ─── */
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    animation: drift 20s ease-in-out infinite;
+  }
+  .orb-1 { width: 500px; height: 500px; background: var(--accent); top: -100px; left: -100px; animation-delay: 0s; }
+  .orb-2 { width: 400px; height: 400px; background: var(--accent3); bottom: 20%; right: -100px; animation-delay: -7s; }
+  .orb-3 { width: 300px; height: 300px; background: var(--accent2); bottom: -50px; left: 30%; animation-delay: -14s; }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ─── SECTIONS ─── */
+  section { position: relative; z-index: 1; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 0 4rem;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-title {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    font-weight: 400;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-desc {
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 480px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #33ddff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.3); }
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    margin-bottom: 3rem;
+    padding-top: 5rem;
+  }
+  .section-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.2;
+  }
+  .section-title span { color: var(--accent); }
+  .section-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 2px;
+    margin-top: 1rem;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--accent3), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 0.4rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    transform: translateX(-4.5px);
+  }
+  .timeline-year {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    transition: all 0.2s;
+  }
+  .timeline-card:hover {
+    border-color: rgba(0,212,255,0.35);
+    box-shadow: 0 4px 30px var(--glow);
+  }
+  .timeline-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+  .timeline-card .org {
+    color: var(--accent2);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+  /* ─── CERTIFICATIONS GRID ─── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .cert-badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.2s;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s, transform 0.4s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .cert-badge.visible { opacity: 1; transform: scale(1); }
+  .cert-badge:hover {
+    border-color: rgba(0,212,255,0.4);
+    box-shadow: 0 4px 20px var(--glow);
+    transform: translateY(-2px) scale(1);
+  }
+  .cert-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .cert-name { font-size: 0.85rem; font-weight: 500; line-height: 1.3; }
+
+  /* ─── INTERESTS ─── */
+  .interests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
+  }
+  .interest-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s, box-shadow 0.2s;
+  }
+  .interest-card.visible { opacity: 1; transform: translateY(0); }
+  .interest-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent3));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .interest-card:hover::after { transform: scaleX(1); }
+  .interest-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+  .interest-emoji { font-size: 2rem; margin-bottom: 0.8rem; }
+  .interest-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .interest-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    padding-bottom: 5rem;
+  }
+  .contact-inner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
+  }
+  .contact-inner h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+  .contact-inner p { color: var(--text-muted); margin-bottom: 2rem; }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* ─── EDITABLE NOTICE ─── */
+  .edit-notice {
+    background: rgba(0,212,255,0.05);
+    border: 1px dashed rgba(0,212,255,0.3);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    display: inline-block;
+  }
+  .edit-notice span { color: var(--accent); }
+
+  /* ─── OPEN TO WORK ─── */
+  #open-to-work {
+    padding-bottom: 0;
+  }
+  .otw-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+  .otw-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(0,212,255,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom right, rgba(124,58,237,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .otw-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2));
+  }
+  .otw-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .otw-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #22c55e;
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 6px #22c55e; opacity: 1; }
+    50% { box-shadow: 0 0 16px #22c55e, 0 0 30px rgba(34,197,94,0.4); opacity: 0.8; }
+  }
+  .otw-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+  .otw-title span { color: var(--accent); }
+  .otw-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 560px;
+    margin-bottom: 2rem;
+  }
+  .otw-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+  .otw-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .otw-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .otw-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .otw-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+  .otw-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent3), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    box-shadow: 0 0 0 4px var(--surface), 0 0 0 6px rgba(0,212,255,0.3), 0 0 30px rgba(0,212,255,0.2);
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .otw-status {
+    font-size: 0.78rem;
+    color: #22c55e;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 768px) {
+    .otw-wrapper { grid-template-columns: 1fr; }
+    .otw-visual { flex-direction: row; justify-content: flex-start; }
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; }
+    .stat-card { flex: 1 1 140px; }
+    .contact-inner { padding: 2rem 1.5rem; }
+  }
+
+  /* ─── SCROLL HINT ─── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: fadeUp 1s 1s ease both;
+  }
+  .scroll-arrow {
+    width: 20px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+  }
+  .scroll-dot {
+    width: 4px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 2px;
+    animation: scrollDot 2s ease-in-out infinite;
+  }
+  @keyframes scrollDot {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    60% { transform: translateY(8px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">JULIEN LUCIEN</a>
+  <ul class="nav-links">
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#interets">Intérêts</a></li>
+    <li><a href="#open-to-work">Open to Work</a></li>
+    <li><a href="julien-cv.html">CV Complet</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">Profil Professionnel</div>
+        <h1 class="hero-name">Julien <span>LUCIEN</span><br>Technicien<br>de Maintenance</h1>
+        <p class="hero-title">Électricien • Énergies Renouvelables • Réseaux Enedis</p>
+        <p class="hero-desc">
+          Technicien de maintenance électrique avec plus de 14 ans d'expérience dans les énergies renouvelables et les réseaux électriques. Passionné par les défis techniques et l'innovation industrielle.
+        </p>
+        <div class="hero-cta">
+          <a href="#experience" class="btn-primary">Mon parcours</a>
+          <a href="#contact" class="btn-outline">Me contacter</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number">14+</div>
+          <div class="stat-label">Années d'expérience professionnelle</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Diplômes & certifications académiques</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">8</div>
+          <div class="stat-label">Habilitations & certifications métier</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-arrow"><div class="scroll-dot"></div></div>
+      Défiler
+    </div>
+  </div>
+</section>
+
+<!-- FORMATION -->
+<section id="formation">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Parcours scolaire</div>
+      <h2 class="section-title">Formation <span>& Diplômes</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="edit-notice">✏️ Pour modifier ce site, ouvrez le fichier <span>.html</span> dans un éditeur de texte et cherchez les textes entre guillemets à remplacer.</div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2009</div>
+        <div class="timeline-card">
+          <h3>Licence Professionnelle — CCSEE</h3>
+          <div class="org">IUT Paul Sabatier — Tarbes</div>
+          <p>Contrôle et Commande des Systèmes Électriques Embarqués. Spécialisation en électrotechnique appliquée aux systèmes embarqués industriels.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2005 – 2008</div>
+        <div class="timeline-card">
+          <h3>BTS Électrotechnique</h3>
+          <div class="org">Lycée Déodat de Séverac — Toulouse</div>
+          <p>Formation technique supérieure en électrotechnique. Acquisition des bases solides en installations électriques, automatismes et distribution d'énergie.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2004 – 2005</div>
+        <div class="timeline-card">
+          <h3>DEUG Sciences et Disciplines de l'Ingénieur (SDI)</h3>
+          <div class="org">Université Paul Sabatier — Toulouse</div>
+          <p>Première année d'études supérieures scientifiques à Toulouse, avant une réorientation vers une filière professionnelle en électrotechnique.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Juin 2004</div>
+        <div class="timeline-card">
+          <h3>Baccalauréat</h3>
+          <div class="org">Lycée Toussaint Louverture — Port-au-Prince, Haïti</div>
+          <p>Obtention du baccalauréat. Départ vers la France pour poursuivre des études supérieures scientifiques.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Carrière</div>
+      <h2 class="section-title">Expériences <span>Professionnelles</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: var(--accent2); box-shadow: 0 0 15px var(--accent2);"></div>
+        <div class="timeline-year">Juillet 2020 — Aujourd'hui</div>
+        <div class="timeline-card">
+          <h3>Technicien de Maintenance — Poste Source</h3>
+          <div class="org">Enedis — AIS de Caen (groupe EDF)</div>
+          <p>Maintenance et exploitation des postes sources du réseau de distribution électrique. Travaux sous tension, consignations, interventions HTA/BT sur les infrastructures du réseau public d'électricité normand. Mutation interne depuis EDF Renouvelables.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: var(--accent2); box-shadow: 0 0 15px var(--accent2);"></div>
+        <div class="timeline-year">Octobre 2011 — Juin 2020</div>
+        <div class="timeline-card">
+          <h3>Technicien de Maintenance — Éoliennes</h3>
+          <div class="org">EDF Renouvelables (groupe EDF)</div>
+          <p>Maintenance préventive et corrective de parcs éoliens industriels. Interventions en hauteur sur nacelles et mâts, diagnostic de pannes électriques et mécaniques, astreintes et suivis de performance des turbines. Environ 10 ans d'expérience terrain dans les énergies renouvelables.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Janvier – Juillet 2011</div>
+        <div class="timeline-card">
+          <h3>Formation Certificat BZEE</h3>
+          <div class="org">Greta Le Mans</div>
+          <p>Formation spécialisée en maintenance éolienne. Certification BZEE (Berufsbildungszentrum für Erneuerbare Energien) — référence européenne pour les techniciens de maintenance d'éoliennes. Obtention en juillet 2011.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Mars – Décembre 2009</div>
+        <div class="timeline-card">
+          <h3>Technicien en Bureau d'Études</h3>
+          <div class="org">EDT — Groupe Sogeclair, Cornebarrieu (31)</div>
+          <p>Stage de fin de Licence Pro (mars à juin 2009), puis embauche jusqu'en décembre 2009. Conception de schémas électriques ferroviaires et participation à la rénovation électrique de 2 locomotives Alstom au sein d'un groupe industriel spécialisé dans l'ingénierie aéronautique et ferroviaire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Qualifications</div>
+      <h2 class="section-title">Certifications <span>& Habilitations</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-badge">
+        <div class="cert-icon">⚡</div>
+        <div class="cert-name">Habilitation B2V</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">⚡</div>
+        <div class="cert-name">Habilitation H2V</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🔌</div>
+        <div class="cert-name">Habilitation BC / HC</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🔧</div>
+        <div class="cert-name">Habilitation BR</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🏗️</div>
+        <div class="cert-name">CACES 3</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🧗</div>
+        <div class="cert-name">Travaux en hauteur</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🚑</div>
+        <div class="cert-name">SST — Sauveteur Secouriste du Travail</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🔥</div>
+        <div class="cert-name">1er Équipier — Extincteurs</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cert-icon">🌬️</div>
+        <div class="cert-name">Certificat BZEE — Maintenance Éolienne</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTÉRÊTS -->
+<section id="interets">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">À propos</div>
+      <h2 class="section-title">Centres <span>d'Intérêt</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="interests-grid">
+      <div class="interest-card">
+        <div class="interest-emoji">🌱</div>
+        <h3>Jardinage & Potager</h3>
+        <p>Conception et aménagement de jardins. Création d'un potager avec zones de culture, composteur et allées. Goût pour l'organisation des espaces extérieurs.</p>
+      </div>
+      <div class="interest-card">
+        <div class="interest-emoji">🏡</div>
+        <h3>Aménagement Extérieur</h3>
+        <p>Travaux de paysagisme, décoration de jardin et aménagement de l'espace extérieur dans un style moderne et contemporain.</p>
+      </div>
+      <div class="interest-card">
+        <div class="interest-emoji">💻</div>
+        <h3>Informatique</h3>
+        <p>Passionné de nouvelles technologies, d'outils numériques et de systèmes informatiques. Curiosité pour les évolutions technologiques du secteur.</p>
+      </div>
+      <div class="interest-card">
+        <div class="interest-emoji">✈️</div>
+        <h3>Voyages en Famille</h3>
+        <p>Explorer de nouveaux horizons en famille, découvrir des cultures et créer des souvenirs avec ses proches.</p>
+      </div>
+      <div class="interest-card">
+        <div class="interest-emoji">🏀</div>
+        <h3>Sport & Basket-ball</h3>
+        <p>Pratique du basket-ball et intérêt pour le sport en général. L'esprit d'équipe et le dépassement de soi comme valeurs clés.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN TO WORK -->
+<section id="open-to-work">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Opportunités</div>
+      <h2 class="section-title">Open <span>to Work</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="otw-wrapper">
+      <div>
+        <div class="otw-badge">
+          <span class="otw-dot"></span>
+          Disponible — Ouvert aux opportunités
+        </div>
+        <h2 class="otw-title">À la recherche de<br>nouveaux <span>défis techniques</span></h2>
+        <p class="otw-desc">
+          Fort de 14 ans d'expérience dans la maintenance électrique industrielle — énergies renouvelables et réseaux de distribution — je suis ouvert à toute opportunité qui valorise mon expertise terrain, mes habilitations et mon sens de l'exigence technique.
+        </p>
+        <div class="otw-tags">
+          <span class="otw-tag">⚡ Maintenance Électrique HTA/BT</span>
+          <span class="otw-tag">🌬️ Énergies Renouvelables</span>
+          <span class="otw-tag">🏗️ Travaux en Hauteur</span>
+          <span class="otw-tag">🔧 Diagnostic & Dépannage</span>
+          <span class="otw-tag">🚄 Électrotechnique Ferroviaire</span>
+          <span class="otw-tag">📋 Habilitations B2V / H2V / BR</span>
+          <span class="otw-tag">📍 Normandie & mobilité</span>
+        </div>
+        <div class="otw-cta">
+          <a href="mailto:votre.email@exemple.com" class="btn-primary">📧 Me contacter</a>
+          <a href="https://linkedin.com/in/votre-profil" class="btn-outline" target="_blank">💼 Voir mon LinkedIn</a>
+        </div>
+      </div>
+      <div class="otw-visual">
+        <div class="otw-avatar">👷</div>
+        <div class="otw-status">✅ Disponible</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Disponible</div>
+      <h2 class="section-title">Me <span>Contacter</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner">
+      <h2>Prenons contact 👋</h2>
+      <p>N'hésitez pas à me contacter pour toute opportunité ou collaboration professionnelle.</p>
+      <div class="contact-links">
+        <!-- 💡 MODIFIER : remplacez les # et les textes par vos vraies coordonnées -->
+        <a href="mailto:votre.email@exemple.com" class="contact-link">
+          📧 votre.email@exemple.com
+        </a>
+        <a href="https://linkedin.com/in/votre-profil" class="contact-link" target="_blank">
+          💼 LinkedIn
+        </a>
+        <a href="#" class="contact-link">
+          📍 Normandie, France
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Julien LUCIEN — Technicien de Maintenance Électrique</p>
+</footer>
+
+<script>
+  // Intersection Observer pour animer les éléments au scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, entry.target.dataset.delay || 0);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Appliquer l'observateur avec délais décalés
+  document.querySelectorAll('.timeline-item').forEach((el, i) => {
+    el.dataset.delay = i * 100;
+    observer.observe(el);
+  });
+  document.querySelectorAll('.cert-badge').forEach((el, i) => {
+    el.dataset.delay = i * 60;
+    observer.observe(el);
+  });
+  document.querySelectorAll('.interest-card').forEach((el, i) => {
+    el.dataset.delay = i * 80;
+    observer.observe(el);
+  });
+
+  // Smooth scroll pour les liens de nav
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Highlight nav actif au scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
